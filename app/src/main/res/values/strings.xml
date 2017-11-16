@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">CameraApp</string>
+    <string name="button_add_picture">ADD PICTURE</string>
+    <string name="button_search_for_pictures">SEARCH</string>
+
+
+
+    <string name="picture_name">PICTURE NAME</string>
+    <string name="picture_to_search">Picture to search</string>
+
+
+
+    <string name="new_picture_tag_hint">New Picture Tag</string>
+
+    <string name="label_picture_name">New picture name</string>
+
+
+</resources>
