@@ -54,6 +54,8 @@ public class Take_Picture_Activity extends Activity
     // For file storage, where is the current image stored?
     private String mImagePath;
 
+    private DatabaseManager DBMgr;
+
     private int Id;
     EditText pictureName;
     EditText searchPicture;
@@ -64,6 +66,7 @@ public class Take_Picture_Activity extends Activity
 
     // Used in the instance state Bundle, to preserve image when device is rotated
     private static final String IMAGE_FILEPATH_KEY = "image filepath key";
+
 
 
     @Override
@@ -81,14 +84,10 @@ public class Take_Picture_Activity extends Activity
 
         }
 
-// Add Listener for save button
-
-
-
+        // Add Listener for save button
         mCameraPicture = findViewById(R.id.camera_picture);
         mTakePictureButton = findViewById(R.id.take_picture_button);
         mTakePictureButton.setOnClickListener(new View.OnClickListener() {
-
 
 
             @Override
@@ -152,16 +151,67 @@ public class Take_Picture_Activity extends Activity
 
             }
 
-
             //So if creating the temporary file worked, should have a value for imageFileUri. Include this URI as an extra
             pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
-
 
 
             //And then request the camera is launched
             startActivityForResult(pictureIntent, TAKE_PICTURE_REQUEST_CODE);
         }
     }
+
+    //-----------------------------------------
+    // Set onClickListener onto the addPictureButton.
+    //------------------------------------------------
+    addPictureButton.setOnClickListener(new View.OnClickListener() {
+
+    @Override
+
+    public void onClick(View v) {
+
+
+        String newName = pictureName.getText().toString();
+
+       // if ( newName.isEmpty() || pictureName)
+        {
+
+         //   Toast.makeText(PicturesActivity.this, "Please enter a product name and numerical" +
+
+           //         " quantity", Toast.LENGTH_LONG).show();
+           // return;
+        //Place validation back
+        //}
+
+            // newName, -1 don't know id, new Date().getTime() obj., null unknown tags, , mImagePath to the file
+            Picture pict = new Picture( newName, -1, new Date().getTime(),  null,  mImagePath);
+
+                                //Its type is picture
+        if (DBMgr.addPicture(pict)) {
+
+            Toast.makeText(Take_Picture_Activity.this, "Product added to database",
+
+                    Toast.LENGTH_LONG).show();
+
+            //Clear form and update ListView
+
+            pictureName.getText().clear();
+
+            allPictureListAdapter.changeCursor(DatabaseManager.getCursorAll());
+
+        } else {
+
+            //Probably a duplicate product name
+
+            Toast.makeText(PicturesActivity.this, newName +" is already in the database",
+
+                    Toast.LENGTH_LONG).show();
+
+        }
+
+    }
+
+});
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -28,6 +28,7 @@ public class DatabaseManager {
     protected static final String COL_DATETAKEN = "date_taken";
     protected static final String COL_TAGS = "tags";
 
+    protected static final String FILENAME = "file_name";
     private static final String DBTAG = "DatabaseManager";
     private static final String SQL_TAG = "SQLHelper";
 
@@ -36,7 +37,6 @@ public class DatabaseManager {
         this.context = c;
         helper = new SQLHelper(c);
         this.db = helper.getWritableDatabase();
-
 
     }
     public void close()
@@ -80,18 +80,20 @@ public class DatabaseManager {
     }
 
 
-    //Add a product and quantity to the database.
+    //Add a picture and quantity to the database.
     // Returns true if product added, false if product is already in the database
-    public boolean addProduct(String name, int quantity) {
+    public boolean addPicture(Picture pict)
+    {
+
         ContentValues newPictures = new ContentValues();
-        newPictures.put(COL_PICTURENAME, name);
+        newPictures.put(COL_PICTURENAME, pict.name);
         try {
             db.insertOrThrow(DB_NAME, null, newPictures);
             return true;
 
         } catch (SQLiteConstraintException sqlce) {
             Log.e(DBTAG, "error inserting data into table. " +
-                    "Name:" + name + " quantity:" + quantity, sqlce);
+                    "Name:" + pict.name + sqlce);
             return false;
         }
     }
@@ -99,17 +101,26 @@ public class DatabaseManager {
     //If you wanted to get a list of everything in the DB
     public ArrayList<Picture> fetchAllProducts() {
 
+        //Array
         ArrayList<Picture> pictures = new ArrayList<>();
 
+        // Cursor contains db representes the entire database.
+        // db.query method fetches data the information within the parameters and places it
+        // on an object called cursor
+        // db is like file storege. The cusor is data from the database
         Cursor cursor = db.query(DB_NAME, null, null, null, null, null, COL_PICTURENAME);
+
 
         while (cursor.moveToNext())
         {
+
             int _id= cursor.getInt(0);
             String name= cursor.getString(1);
             Long date_taken= cursor.getLong(2);
             String tags = cursor.getString(3);
-            Picture p = new Picture(name, _id,  date_taken, tags);
+            String file_name = cursor.getString();
+
+            Picture p = new Picture(name, _id,  date_taken, tags, file_name);
             pictures.add(p);
         }
 

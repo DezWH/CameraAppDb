@@ -9,21 +9,28 @@ import android.os.Bundle;
 
 public class Picture {
 
+    //Global Variable
     String name;
     int _id;
     long date_taken;
     String tags;
+    String fileName;
 
-    public Picture(String name, int _id, long date_taken, String tags) {
+    //------------------------------------------
+    // Constuctor:
+    //-------------------------------------------
+    public Picture(String name, int _id, long date_taken, String tags, String fileName) {
+        //--------------------
+        // Instantiation of name this particulture picture
         this.name = name;
         this._id = _id;
         this.date_taken = date_taken;
         this.tags = tags;
-
+        this.fileName=fileName;
     }
     @Override
     public String toString() {
-        return "Name: " + name + "TEXT" + _id + "INTEGER" + date_taken + "LONG" + tags +"TEXT";
+        return "Name: " + name + "TEXT" + _id + "INTEGER" + date_taken + "LONG" + tags +"TEXT" + "FILE NAME" + fileName;
 
     }
 }

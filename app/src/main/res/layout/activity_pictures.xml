@@ -24,7 +24,7 @@
             android:id="@+id/button_add_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ADD PICTURE"/>
+            android:text="ADD PICTURE" />
 
         <EditText
             android:id="@+id/add_new_picture_name_et"

@@ -43,8 +43,6 @@ public class PictureListAdapter extends CursorAdapter{
         pictureListQuantity.setText(cursor.getString(QUANTITY_COL));
 
 
-
-
     }
 
 }
